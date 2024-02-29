@@ -9,24 +9,27 @@ high_score = 0
 # Creating a window screen
 wn = turtle.Screen()
 wn.title("Snake Game")
-# wn.bgcolor("blue")
+wn.bgcolor("black")
 wn.bgpic("background.gif")
-wn.setup(width=600, height=600)
-wn.tracer(0)
+wn.setup(width=600, height=700)
+wn.tracer(150)
 
 # head of the snake
 head = turtle.Turtle()
-head.shape("square")
-head.color("white")
+head.shape("circle")
+head.color("purple")
+head.shapesize(1.2)
 head.penup()
 head.goto(0, 0)
 head.direction = "Stop"
 
 # food in the game
+food_colors = ["red", "white"]
+current_food_color = "red"
 food = turtle.Turtle()
 food.speed(0)
 food.shape("circle")
-food.color("red")
+food.color(current_food_color)
 food.penup()
 food.goto(0, 100)
 
@@ -36,7 +39,7 @@ pen.shape("square")
 pen.color("white")
 pen.penup()
 pen.hideturtle()
-pen.goto(0, 250)
+pen.goto(0, 307)
 pen.write("Score : 0 High Score : 0", align="center", font=("candara", 24, "bold"))
 
 segments = []
@@ -73,6 +76,16 @@ def move():
         x = head.xcor()
         head.setx(x + 20)
 
+# Function to change food color
+def change_food_color():
+    global current_food_color
+    current_food_color = food_colors[1] if current_food_color == food_colors[0] else food_colors[0]
+    food.color(current_food_color)
+    wn.ontimer(change_food_color, 150)
+
+# Start changing food color
+change_food_color()
+
 # Assigning key directions
 wn.listen()
 wn.onkeypress(go_up, "w")
@@ -98,7 +111,7 @@ def main_gameplay():
         ):
             time.sleep(1)
             head.goto(0, 0)
-            head.direction = "stop"
+            head.direction = "Stop"
 
             for segment in segments:
                 segment.goto(1000, 1000)
@@ -122,8 +135,8 @@ def main_gameplay():
             # Add segment
             new_segment = turtle.Turtle()
             new_segment.speed(0)
-            new_segment.shape("square")
-            new_segment.color("black")
+            new_segment.shape("circle")
+            new_segment.color("purple")
             new_segment.penup()
             segments.append(new_segment)
 
