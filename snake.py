@@ -40,7 +40,27 @@ pen.color("white")
 pen.penup()
 pen.hideturtle()
 pen.goto(0, 307)
-pen.write("Score : 0 High Score : 0", align="center", font=("candara", 24, "bold"))
+pen.write("Score : 0  |  High Score : 0", align="center", font=("candara", 24, "bold"))
+
+# Create the message turtle
+message_pen = turtle.Turtle()
+message_pen.speed(0)
+message_pen.color("white")
+message_pen.penup()
+message_pen.hideturtle()
+message_pen.goto(0, -333)
+
+# Write the initial message
+message_pen.write("Press 'w', 'a', 's', 'd' to play the game", align="center", font=("candara", 20, "bold"))
+
+# Function to start the game
+def start_game():
+    message_pen.clear()  # Clear the initial message
+    main_gameplay()
+
+# Assigning key to start the game
+wn.listen()
+wn.onkeypress(start_game, "w")  # You can use any key you prefer to start the game
 
 segments = []
 
@@ -87,11 +107,23 @@ def change_food_color():
 change_food_color()
 
 # Assigning key directions
-wn.listen()
-wn.onkeypress(go_up, "w")
-wn.onkeypress(go_down, "s")
-wn.onkeypress(go_left, "a")
-wn.onkeypress(go_right, "d")
+def handle_key_press():
+    global delay
+    global score
+    global high_score
+
+    # Bind both lowercase and uppercase keys
+    wn.onkeypress(go_up, "w")
+    wn.onkeypress(go_down, "s")
+    wn.onkeypress(go_left, "a")
+    wn.onkeypress(go_right, "d")
+    wn.onkeypress(go_up, "W")
+    wn.onkeypress(go_down, "S")
+    wn.onkeypress(go_left, "A")
+    wn.onkeypress(go_right, "D")
+
+# Handle the first key press
+handle_key_press()
 
 # Main Gameplay
 def main_gameplay():
@@ -121,7 +153,7 @@ def main_gameplay():
 
             pen.clear()
             pen.write(
-                "Score : {} High Score : {} ".format(score, high_score),
+                "Score : {}  |  High Score : {} ".format(score, high_score),
                 align="center",
                 font=("candara", 24, "bold"),
             )
@@ -146,7 +178,7 @@ def main_gameplay():
                 high_score = score
             pen.clear()
             pen.write(
-                "Score : {} High Score : {} ".format(score, high_score),
+                "Score : {}  |  High Score : {} ".format(score, high_score),
                 align="center",
                 font=("candara", 24, "bold"),
             )
@@ -180,7 +212,7 @@ def main_gameplay():
                 delay = 0.1
                 pen.clear()
                 pen.write(
-                    "Score : {} High Score : {} ".format(score, high_score),
+                    "Score : {}  |  High Score : {} ".format(score, high_score),
                     align="center",
                     font=("candara", 24, "bold"),
                 )
