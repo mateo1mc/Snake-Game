@@ -5,6 +5,7 @@ import random
 delay = 0.1
 score = 0
 high_score = 0
+food_refresh_timer = None
 
 # Creating a window screen
 wn = turtle.Screen()
@@ -108,10 +109,13 @@ change_food_color()
 
 # Function to update food's position randomly
 def update_food_position():
+    global food_refresh_timer
     x = random.randint(-270, 270)
     y = random.randint(-270, 270)
     food.goto(x, y)
-    wn.ontimer(update_food_position, 10000)  # Call the function again after 10 seconds
+    if food_refresh_timer is not None:
+        wn.after_cancel(food_refresh_timer)
+    food_refresh_timer = wn.ontimer(update_food_position, 10000)  # Call the function again after 10 seconds
 
 # Start updating food position
 update_food_position()
