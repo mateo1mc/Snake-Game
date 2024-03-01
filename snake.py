@@ -12,7 +12,7 @@ wn.title("Snake Game")
 wn.bgcolor("black")
 wn.bgpic("background.gif")
 wn.setup(width=600, height=700)
-wn.tracer(150)
+wn.tracer(0)
 
 # head of the snake
 head = turtle.Turtle()
@@ -55,7 +55,7 @@ message_pen.write("Press 'w', 'a', 's', 'd' to play the game", align="center", f
 
 # Function to start the game
 def start_game():
-    message_pen.clear()  # Clear the initial message
+    message_pen.clear()
     main_gameplay()
 
 # Assigning key to start the game
@@ -105,6 +105,16 @@ def change_food_color():
 
 # Start changing food color
 change_food_color()
+
+# Function to update food's position randomly
+def update_food_position():
+    x = random.randint(-270, 270)
+    y = random.randint(-270, 270)
+    food.goto(x, y)
+    wn.ontimer(update_food_position, 10000)  # Call the function again after 10 seconds
+
+# Start updating food position
+update_food_position()
 
 # Assigning key directions
 def handle_key_press():
