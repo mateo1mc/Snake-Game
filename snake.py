@@ -97,6 +97,16 @@ def move():
         x = head.xcor()
         head.setx(x + 20)
 
+    # Screen wrapping logic
+    if head.xcor() > 290:
+        head.setx(-290)
+    elif head.xcor() < -290:
+        head.setx(290)
+    elif head.ycor() > 290:
+        head.sety(-290)
+    elif head.ycor() < -290:
+        head.sety(290)
+
 # Function to change food color
 def change_food_color():
     global current_food_color
@@ -115,7 +125,7 @@ def update_food_position():
     food.goto(x, y)
     if food_refresh_timer is not None:
         wn.after_cancel(food_refresh_timer)
-    food_refresh_timer = wn.ontimer(update_food_position, 10000)  # Call the function again after 10 seconds
+    food_refresh_timer = wn.ontimer(update_food_position, 20000)  # Call the function again after 20 seconds
 
 # Start updating food position
 update_food_position()
