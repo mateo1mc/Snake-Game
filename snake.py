@@ -145,6 +145,11 @@ def handle_key_press():
     wn.onkeypress(go_down, "S")
     wn.onkeypress(go_left, "A")
     wn.onkeypress(go_right, "D")
+    wn.onkeypress(go_up, "Up")
+    wn.onkeypress(go_down, "Down")
+    wn.onkeypress(go_left, "Left")
+    wn.onkeypress(go_right, "Right")
+
 
 # Handle the first key press
 handle_key_press()
