@@ -136,7 +136,7 @@ def handle_key_press():
     global score
     global high_score
 
-    # Bind both lowercase and uppercase keys
+    # Buttons that you can play
     wn.onkeypress(go_up, "w")
     wn.onkeypress(go_down, "s")
     wn.onkeypress(go_left, "a")
@@ -154,6 +154,17 @@ def handle_key_press():
 # Handle the first key press
 handle_key_press()
 
+# Add a global variable to track the game state
+is_paused = False
+
+# Function to toggle game state between paused and running
+def toggle_pause():
+    global is_paused
+    is_paused = not is_paused
+
+# Bind the space key to toggle_pause function
+wn.onkeypress(toggle_pause, "space")
+
 # Main Gameplay
 def main_gameplay():
     global delay
@@ -162,6 +173,9 @@ def main_gameplay():
 
     while True:
         wn.update()
+        
+        if is_paused:
+            continue
 
         # Check for collision with wall
         if (
