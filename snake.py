@@ -6,6 +6,7 @@ delay = 0.1
 score = 0
 high_score = 0
 food_refresh_timer = None
+is_paused = False
 
 # Creating a window screen
 wn = turtle.Screen()
@@ -41,7 +42,11 @@ pen.color("white")
 pen.penup()
 pen.hideturtle()
 pen.goto(0, 307)
-pen.write("Score : 0  |  High Score : 0", align="center", font=("candara", 24, "bold"))
+pen.write(
+    "Score : 0  |  High Score : 0",
+    align="center",
+    font=("candara", 24, "bold")
+    )
 
 # Create the message turtle
 message_pen = turtle.Turtle()
@@ -52,7 +57,11 @@ message_pen.hideturtle()
 message_pen.goto(0, -333)
 
 # Write the initial message
-message_pen.write("Press 'w', 'a', 's', 'd' to play the game", align="center", font=("candara", 20, "bold"))
+message_pen.write(
+    "Press 'w', 'a', 's', 'd' to play the game",
+    align="center",
+    font=("candara", 20, "bold")
+    )
 
 # Function to start the game
 def start_game():
@@ -61,7 +70,7 @@ def start_game():
 
 # Assigning key to start the game
 wn.listen()
-wn.onkeypress(start_game, "w")  # You can use any key you prefer to start the game
+wn.onkeypress(start_game, "w")  # You can use any key you prefer
 
 segments = []
 
@@ -125,7 +134,8 @@ def update_food_position():
     food.goto(x, y)
     if food_refresh_timer is not None:
         wn.after_cancel(food_refresh_timer)
-    food_refresh_timer = wn.ontimer(update_food_position, 20000)  # Call the function again after 20 seconds
+    # Call the function again after 30 seconds
+    food_refresh_timer = wn.ontimer(update_food_position, 30000)
 
 # Start updating food position
 update_food_position()
@@ -154,9 +164,6 @@ def handle_key_press():
 # Handle the first key press
 handle_key_press()
 
-# Add a global variable to track the game state
-is_paused = False
-
 # Function to toggle game state between paused and running
 def toggle_pause():
     global is_paused
@@ -176,30 +183,6 @@ def main_gameplay():
         
         if is_paused:
             continue
-
-        # Check for collision with wall
-        if (
-            head.xcor() > 290
-            or head.xcor() < -290
-            or head.ycor() > 290
-            or head.ycor() < -290
-        ):
-            time.sleep(1)
-            head.goto(0, 0)
-            head.direction = "Stop"
-
-            for segment in segments:
-                segment.goto(1000, 1000)
-            segments.clear()
-            score = 0
-            delay = 0.1
-
-            pen.clear()
-            pen.write(
-                "Score : {}  |  High Score : {} ".format(score, high_score),
-                align="center",
-                font=("candara", 24, "bold"),
-            )
 
         # Check for collision with food
         if head.distance(food) < 20:
@@ -243,10 +226,21 @@ def main_gameplay():
         # Check for collision with the body segments
         for segment in segments:
             if segment.distance(head) < 20:
-                time.sleep(1)
+                # Display Game Over message
+                message_pen.goto(0, 0)
+                message_pen.write("Game Over", align="center", font=("candara", 30, "bold"))
+
+                wn.update()
+                time.sleep(2)
+
                 head.goto(0, 0)
                 head.direction = "Stop"
+                message_pen.clear()
 
+                # Restore key bindings
+                handle_key_press()
+                
+                # Clear segments
                 for segment in segments:
                     segment.goto(1000, 1000)
                 segments.clear()
@@ -259,6 +253,10 @@ def main_gameplay():
                     align="center",
                     font=("candara", 24, "bold"),
                 )
+
+                # Update the screen
+                wn.update()
+                break
 
         time.sleep(delay)
 
