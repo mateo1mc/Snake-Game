@@ -12,7 +12,7 @@ is_paused = False
 wn = turtle.Screen()
 wn.title("Snake Game")
 wn.bgcolor("black")
-wn.bgpic("background.gif")
+wn.bgpic("https://github.com/mateo1mc/Snake-Game/blob/dcde81c3fa1aef252939b80a275ca6ceb7eeaf7a/background.gif")
 wn.setup(width=600, height=700)
 wn.tracer(0)
 
